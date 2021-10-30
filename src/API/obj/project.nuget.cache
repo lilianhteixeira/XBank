@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "3gsuvEd/VL2GX9umHh3SNZ1tK1jKJrEf91bfcu7HQuhhQOQsoDxo4Hvo5A+SY2lvH8Yvd4Zp9Fr16pLm6eH9cQ==",
+  "dgSpecHash": "sWF+ZoeIPVtLbQJQR35ggPL6bRfQDMUfeEgkuh5AFThRA28BE6IfygOLge5xdEyiKs5ky17JZntfgAYjHypiVg==",
   "success": true,
   "projectFilePath": "C:\\Users\\lilia\\Documents\\Gama\\XBank\\src\\API\\API.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\lilia\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\lilia\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\lilia\\.nuget\\packages\\swashbuckle.aspnetcore\\5.6.3\\swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
+    "C:\\Users\\lilia\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.6.3\\swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",
+    "C:\\Users\\lilia\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\5.6.3\\swashbuckle.aspnetcore.swaggergen.5.6.3.nupkg.sha512",
+    "C:\\Users\\lilia\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\5.6.3\\swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512"
+  ],
   "logs": []
 }

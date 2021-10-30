@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lilia\\Documents\\Gama\\XBank\\src\\API\\API.csproj": {}
+    "C:\\Users\\lilia\\Documents\\Gama\\XBank\\src\\Infra\\Infra.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lilia\\Documents\\Gama\\XBank\\src\\API\\API.csproj": {
+    "C:\\Users\\lilia\\Documents\\Gama\\XBank\\src\\Infra\\Infra.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lilia\\Documents\\Gama\\XBank\\src\\API\\API.csproj",
-        "projectName": "API",
-        "projectPath": "C:\\Users\\lilia\\Documents\\Gama\\XBank\\src\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\lilia\\Documents\\Gama\\XBank\\src\\Infra\\Infra.csproj",
+        "projectName": "Infra",
+        "projectPath": "C:\\Users\\lilia\\Documents\\Gama\\XBank\\src\\Infra\\Infra.csproj",
         "packagesPath": "C:\\Users\\lilia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lilia\\Documents\\Gama\\XBank\\src\\API\\obj\\",
+        "outputPath": "C:\\Users\\lilia\\Documents\\Gama\\XBank\\src\\Infra\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\lilia\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,12 +39,6 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "dependencies": {
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[5.6.3, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
@@ -56,9 +50,6 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }

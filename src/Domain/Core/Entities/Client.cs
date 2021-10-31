@@ -4,7 +4,7 @@ namespace XBank.Domain.Core.Entities
 {
     public class Client
     {
-        public Guid IdClient { get; set; }
+        public Guid IdAccount { get; set; }
         public string Nome { get; set; }
         public string CPF { get; set; }
         public string Email { get; set; }

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using XBank.Domain.Shared.Entities;
 
 namespace XBank.Domain.Core.Entities
 {
-    public class Account
+    public class Account : Entity
+
     {
         public Guid IdClient { get; set; }
         public decimal Balance { get; private set; }
-        private List<Moviment> Moviment { get; set; }
+        private List<Movement> Movement { get; set; }
 
         public List<string> GenerateExtract()
         {

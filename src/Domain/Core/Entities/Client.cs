@@ -1,8 +1,9 @@
 ﻿using System;
+using XBank.Domain.Shared.Entities;
 
 namespace XBank.Domain.Core.Entities
 {
-    public class Client
+    public class Client : Entity
     {
         public Guid IdAccount { get; set; }
         public string Nome { get; set; }

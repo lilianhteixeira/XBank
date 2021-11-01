@@ -12,7 +12,6 @@ namespace  XBank.Domain.Shared.Entities
             UpdatedAt = now;
             IsActive = true;
         }
-
         public Guid Id { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

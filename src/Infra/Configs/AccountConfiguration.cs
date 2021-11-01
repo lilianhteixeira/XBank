@@ -13,13 +13,14 @@ namespace XBank.Domain.Infra.Configs
             builder.ToTable("TB_ACCOUNT");
 
             builder
-                .Property(x => x.IdClient)
-                .HasColumnName("ID_CLIENT");
-
-            builder
-                .Property(x => x.Balance)
+                .Property(account => account.Balance)
                 .HasColumnName("VL_BALANCE");
 
+
+            builder
+                .HasOne(account => account.Client)
+                .WithOne(client => client.Account)
+                .HasForeignKey<Client>(client => client.AccountId);
         }
     }
 }

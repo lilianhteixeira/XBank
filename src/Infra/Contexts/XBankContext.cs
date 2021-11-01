@@ -10,11 +10,17 @@ namespace XBank.Domain.Infra.Contexts
         {
             Database.EnsureCreated();
         }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             new AccountConfiguration().Configure(modelBuilder.Entity<Account>());
+            new ClientConfiguration().Configure(modelBuilder.Entity<Client>());
+            new MovementConfiguration().Configure(modelBuilder.Entity<Movement>());
         }
 
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Movement> Movements { get; set; }
     }
 }

@@ -7,9 +7,9 @@ namespace XBank.Domain.Core.Entities
     public class Account : Entity
 
     {
-        public Guid IdClient { get; set; }
+        public Client Client { get; set; }
         public decimal Balance { get; private set; }
-        private List<Movement> Movement { get; set; }
+        public List<Movement> Movements { get; set; }
 
         public List<string> GenerateExtract()
         {

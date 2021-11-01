@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using XBank.Domain.Infra.Contexts;
 
 namespace API.Controllers
 {
@@ -16,12 +17,14 @@ namespace API.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        public XBankContext XBankContext { get; }
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(XBankContext xBankContext)
         {
-            _logger = logger;
+
+            XBankContext = xBankContext;
         }
+
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()

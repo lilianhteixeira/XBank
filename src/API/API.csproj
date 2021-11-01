@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>XBank.Service.API</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

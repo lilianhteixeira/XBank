@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using XBank.Domain.Infra.Contexts;
+using XBank.Domain.Infra.Repositories;
+using XBank.Domain.Shared.Interfaces;
 
 namespace API
 {
@@ -30,9 +32,13 @@ namespace API
         {
             services.AddControllers();
 
-            var connection = @"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = master; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False; Database = XBank;";
+            var connection = Configuration.GetConnectionString("XBankStoreDb");
             services.AddDbContext<XBankContext>(options => options.UseSqlServer(connection));
 
+
+            services.AddSingleton(typeof(IQueryRepository<>), typeof(QueryRepository<>));
+
+            services.AddSingleton(typeof(ICommandRepository<>), typeof(CommandRepository<>));
 
             services.AddSwaggerGen(c =>
             {

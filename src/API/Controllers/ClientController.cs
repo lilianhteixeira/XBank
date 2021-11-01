@@ -34,5 +34,14 @@ namespace XBank.Service.API.Controllers
 
             return Created("", result);
         }
+        [HttpDelete]
+        public IActionResult Remove([FromBody] RemoveAccountRequest request)
+        {
+            var command = new RemoveAccountCommandHandler(_cmdRepository);
+
+            var result = command.Handle(request);
+
+            return Created("", result);
+        }
     }
 }

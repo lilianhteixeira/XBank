@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using XBank.Domain.Core.Entities;
 using XBank.Domain.Infra.Contexts;
 using XBank.Domain.Shared.Entities;
 using XBank.Domain.Shared.Interfaces;
@@ -41,6 +44,12 @@ namespace XBank.Domain.Infra.Repositories
         public void Save()
         {
             _context.SaveChanges();
+        }
+        //Inlcuir uma segunda expression
+        public TEntity Get(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _context.Set<TEntity>().Include(x => x.).Single(predicate);
+
         }
     }
 }

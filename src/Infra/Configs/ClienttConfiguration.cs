@@ -12,10 +12,6 @@ namespace XBank.Domain.Infra.Configs
 
             builder.ToTable("TB_CLIENT");
 
-            //builder
-            //    .Property(client => client.AccountId)
-            //    .HasColumnName("ID_ACCOUNT");
-
             builder
                 .Property(client => client.Name)
                 .HasColumnName("NM_NAME");

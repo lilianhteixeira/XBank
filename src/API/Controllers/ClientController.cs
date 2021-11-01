@@ -26,9 +26,9 @@ namespace XBank.Service.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add([FromBody] AddClientRequest request)
+        public IActionResult Add([FromBody] OpenAccountRequest request)
         {
-            var command = new AddClientCommandHandler(_cmdRepository);
+            var command = new OpenAccountCommandHandler(_cmdRepository);
 
             var result = command.Handle(request);
 

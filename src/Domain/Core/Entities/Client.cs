@@ -6,7 +6,7 @@ namespace XBank.Domain.Core.Entities
     public class Client : Entity
     {
         public Account Account { get; set; }
-        public Guid AccountId { get; set; }
+        // public Guid AccountId { get; set; }
         public string Name { get; set; }
         public string CPF { get; set; }
         public string Email { get; set; }

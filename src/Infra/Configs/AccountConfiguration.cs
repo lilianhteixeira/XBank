@@ -16,11 +16,15 @@ namespace XBank.Domain.Infra.Configs
                 .Property(account => account.Balance)
                 .HasColumnName("VL_BALANCE");
 
+            builder
+                .Property(account => account.ClientId)
+                .HasColumnName("ID_CLIENT");
+
 
             builder
                 .HasOne(account => account.Client)
                 .WithOne(client => client.Account)
-                .HasForeignKey<Client>(client => client.AccountId);
+                .HasForeignKey<Account>(account => account.ClientId);
         }
     }
 }

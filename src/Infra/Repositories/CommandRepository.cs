@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Infra.Contexts;
 using XBank.Domain.Shared.Entities;
@@ -49,9 +50,8 @@ namespace XBank.Domain.Infra.Repositories
             _context.SaveChanges();
         }
 
-        public TEntity Get(
-            Expression<Func<TEntity, bool>> predicate,
-            string childEntity = null)
+
+        public TEntity Get(Expression<Func<TEntity, bool>> predicate, string childEntity = null)
         {
             if (childEntity != null)
             {

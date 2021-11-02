@@ -6,8 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using XBank.Domain.Core.Commands;
 using XBank.Domain.Core.Entities;
+using XBank.Domain.Core.Queries;
 using XBank.Domain.Core.Requests;
+using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
+using XBank.Domain.Shared.Requests;
 
 namespace XBank.Service.API.Controllers
 {
@@ -78,6 +81,29 @@ namespace XBank.Service.API.Controllers
 
                 return BadRequest(exc.Message);
             }
+        }
+
+        [HttpGet]
+        public IActionResult GetAll([FromQuery] GetAllClientRequest request)
+        {
+            var query = new GetAllClientQueryHandler(_qRepository);
+
+            var result = query.Handle(request);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetById([FromRoute] Guid id)
+        {
+            var query = new GetByIdQueryHandler<Client>(_qRepository);
+
+            var request = new GetByIdRequest() { Id = id };
+
+            var result = query.Handle(request);
+
+            return Ok(result);
         }
     }
 }

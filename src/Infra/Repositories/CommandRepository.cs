@@ -33,12 +33,15 @@ namespace XBank.Domain.Infra.Repositories
 
         public void Remove(TEntity entity)
         {
-            throw new NotImplementedException();
+            _context.Remove(entity);
         }
 
         public TEntity Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            entity.UpdatedAt = DateTime.Now;
+            _context.Update(entity);
+
+            return entity;
         }
 
         public void Save()

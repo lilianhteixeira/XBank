@@ -10,13 +10,13 @@ using XBank.Domain.Shared.Interfaces;
 
 namespace XBank.Domain.Core.Commands
 {
-    public class OpenAccountCommandHandler : CommandHandler<Client, OpenAccountRequest, Object>
+    public class OpenAccountCommandHandler : CommandHandler<Client, ClientRequest, Object>
     {
         public OpenAccountCommandHandler(ICommandRepository<Client> repository) : base(repository)
         {
         }
 
-        public override object Handle(OpenAccountRequest request)
+        public override object Handle(ClientRequest request)
         {
             try
             {
@@ -40,9 +40,9 @@ namespace XBank.Domain.Core.Commands
 
                 return "Criado com sucesso";
             }
-            catch (Exception exc)
+            catch (Exception)
             {
-                return "Não foi possivel criar o cliente. Erro: " + exc.Message;
+                return null;
             }
 
         }

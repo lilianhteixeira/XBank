@@ -26,22 +26,58 @@ namespace XBank.Service.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add([FromBody] OpenAccountRequest request)
+        public IActionResult Add([FromBody] ClientRequest request)
         {
-            var command = new OpenAccountCommandHandler(_cmdRepository);
+            try
+            {
+                var command = new OpenAccountCommandHandler(_cmdRepository);
 
-            var result = command.Handle(request);
+                var result = command.Handle(request);
 
-            return Created("", result);
+                return Created("", result);
+
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc.Message);
+            }
         }
+
+        [HttpPut]
+        public IActionResult Update([FromBody] ClientRequest request)
+        {
+            try
+            {
+                var command = new UpdateClientCommandHandler(_cmdRepository);
+
+                var result = command.Handle(request);
+
+                return Ok(result);
+
+            }
+            catch (Exception)
+            {
+                return BadRequest("Cliente não encontrado. Digite um CPF válido.");
+            }
+        }
+
+
         [HttpDelete]
         public IActionResult Remove([FromBody] RemoveAccountRequest request)
         {
-            var command = new RemoveAccountCommandHandler(_cmdRepository);
+            try
+            {
+                var command = new RemoveAccountCommandHandler(_cmdRepository);
 
-            command.Handle(request);
+                command.Handle(request);
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception exc)
+            {
+
+                return BadRequest(exc.Message);
+            }
         }
     }
 }

@@ -39,9 +39,9 @@ namespace XBank.Service.API.Controllers
         {
             var command = new RemoveAccountCommandHandler(_cmdRepository);
 
-            var result = command.Handle(request);
+            command.Handle(request);
 
-            return Created("", result);
+            return NoContent();
         }
     }
 }

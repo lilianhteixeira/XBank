@@ -7,9 +7,9 @@ using XBank.Domain.Shared.Requests;
 
 namespace XBank.Domain.Core.Requests
 {
-    public class OpenAccountRequest : Request
+    public class ClientRequest : Request
     {
-        public OpenAccountRequest(string name, string cpf, string email, string address, string phone)
+        public ClientRequest(string name, string cpf, string email, string address, string phone)
         {
             Name = name;
             CPF = cpf;

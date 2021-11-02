@@ -20,6 +20,8 @@ namespace XBank.Domain.Shared.Interfaces
 
         void Save();
 
-       TEntity Get(Expression<Func<TEntity, bool>> predicate);
+       TEntity Get(
+           Expression<Func<TEntity, bool>> predicate,
+           string childEntity);
     }
 }

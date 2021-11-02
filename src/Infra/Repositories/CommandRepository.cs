@@ -45,10 +45,17 @@ namespace XBank.Domain.Infra.Repositories
         {
             _context.SaveChanges();
         }
-        //Inlcuir uma segunda expression
-        public TEntity Get(Expression<Func<TEntity, bool>> predicate)
+
+        public TEntity Get(
+            Expression<Func<TEntity, bool>> predicate,
+            string childEntity = null)
         {
-            return _context.Set<TEntity>().Include(x => x.).Single(predicate);
+            if (childEntity != null)
+            {
+                return _context.Set<TEntity>().Include(childEntity).Single(predicate);
+            }
+
+            return _context.Set<TEntity>().Single(predicate);
 
         }
     }

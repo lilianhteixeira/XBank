@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using XBank.Domain.Shared.Requests;
+using XBank.Domain.Shared.ValueObjects;
 
 namespace XBank.Domain.Core.Requests
 {

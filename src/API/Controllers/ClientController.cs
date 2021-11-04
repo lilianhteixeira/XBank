@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,14 +41,14 @@ namespace XBank.Service.API.Controllers
                 return Created("", result);
 
             }
-            catch (Exception exc)
+            catch (InvalidOperationException exc)
             {
-                return BadRequest(exc.Message);
+                return BadRequest(new { messageError = exc.Message });
             }
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] ClientRequest request)
+        public IActionResult Update([FromBody] ClientRequest request, [FromQuery] bool activate)
         {
             try
             {

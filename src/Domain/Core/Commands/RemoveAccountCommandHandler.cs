@@ -18,7 +18,7 @@ namespace XBank.Domain.Core.Commands
 
         public override object Handle(RemoveAccountRequest request)
         {
-            var client = _repository.Get(x => x.CPF == request.CPF, "Account");
+            var client = _repository.Get(x => x.CPF.Value == request.CPF, "Account");
             client.IsActive = false;
             client.Account.IsActive = false;
             _repository.Save();

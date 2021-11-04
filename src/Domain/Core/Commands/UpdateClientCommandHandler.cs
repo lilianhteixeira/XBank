@@ -18,26 +18,18 @@ namespace XBank.Domain.Core.Commands
 
         public override object Handle(ClientRequest request)
         {
-            try
-            {
-                var client = _repository.Get(x => x.CPF == request.CPF);
+            var client = _repository.Get(x => x.CPF.Value == request.CPF);
 
-                client.Name = request.Name;
-                client.Email = request.Email;
-                client.Address = request.Address;
-                client.Phone = request.Phone;
+            client.Name = request.Name;
+            client.Email = request.Email;
+            client.Address = request.Address;
+            client.Phone = request.Phone;
 
-                _repository.Update(client);
+            _repository.Update(client);
 
-                _repository.Save();
+            _repository.Save();
 
-                return client;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            return client;
         }
     }
 }

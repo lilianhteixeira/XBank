@@ -1,12 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using XBank.Domain.Core.Entities;
 using XBank.Domain.Infra.Contexts;
 using XBank.Domain.Shared.Entities;
 using XBank.Domain.Shared.Interfaces;
@@ -27,9 +22,20 @@ namespace XBank.Domain.Infra.Repositories
             _context.Set<TEntity>().Add(entity);
         }
 
+        public TEntity Get(Expression<Func<TEntity, bool>> predicate, string childEntity = null)
+        {
+            if (childEntity != null)
+            {
+                return _context.Set<TEntity>().Include(childEntity).Single(predicate);
+            }
+
+            return _context.Set<TEntity>().Single(predicate);
+
+        }
+
         public TEntity GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return Get(x => x.Id == id);
         }
 
         public void Remove(TEntity entity)
@@ -45,21 +51,11 @@ namespace XBank.Domain.Infra.Repositories
             return entity;
         }
 
+
         public void Save()
         {
             _context.SaveChanges();
         }
 
-
-        public TEntity Get(Expression<Func<TEntity, bool>> predicate, string childEntity = null)
-        {
-            if (childEntity != null)
-            {
-                return _context.Set<TEntity>().Include(childEntity).Single(predicate);
-            }
-
-            return _context.Set<TEntity>().Single(predicate);
-
-        }
     }
 }

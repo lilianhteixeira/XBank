@@ -7,6 +7,7 @@ using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Requests;
 using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
+using XBank.Domain.Shared.Util;
 
 namespace XBank.Domain.Core.Commands
 {
@@ -18,7 +19,15 @@ namespace XBank.Domain.Core.Commands
 
         public override object Handle(RemoveAccountRequest request)
         {
-            var client = _repository.Get(x => x.CPF.Value == request.CPF, "Account");
+
+            var isClientExist = _repository.Exists(client => client.Id == request.GetId());
+
+            if (!isClientExist)
+            {
+                throw new InvalidOperationException($"Customer with Id {request.GetId()} doesn't exist.");
+            }
+
+            var client = _repository.Get(x => x.Id == request.GetId(), "Account");
             client.IsActive = false;
             client.Account.IsActive = false;
             _repository.Save();

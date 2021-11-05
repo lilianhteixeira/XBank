@@ -10,11 +10,10 @@ namespace XBank.Domain.Core.Requests
     public class RemoveAccountRequest : Request
 
     {
-        public string CPF { get; set; }
+        private Guid _id { get; set; }
 
-        public RemoveAccountRequest(string cpf)
-        {
-            CPF = cpf;
-        }
+        public Guid GetId() => _id;
+        public void SetId(Guid id) => _id = id;
+
     }
 }

@@ -6,23 +6,17 @@ using System.Threading.Tasks;
 using XBank.Domain.Shared.Requests;
 using XBank.Domain.Shared.ValueObjects;
 
-namespace XBank.Domain.Core.Requests
+namespace XBank.Domain.Shared.Requests
 {
     public class ClientRequest : Request
     {
-        public ClientRequest(string name, string cpf, string email, string address, string phone)
-        {
-            Name = name;
-            CPF = cpf;
-            Email = email;
-            Address = address;
-            Phone = phone;
-        }
-
+        private Guid _id { get; set; }
         public string Name { get; set; }
-        public string CPF { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
+
+        public Guid GetId() => _id;
+        public void SetId(Guid id) => _id = id;
     }
 }

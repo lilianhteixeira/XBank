@@ -8,38 +8,43 @@ using XBank.Domain.Core.Requests;
 using XBank.Domain.Core.Responses;
 using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
+using XBank.Domain.Shared.Util;
 using XBank.Domain.Shared.ValueObjects;
 
 namespace XBank.Domain.Core.Commands
 {
-    public class OpenAccountCommandHandler : CommandHandler<Client, ClientRequest, OpenAccountResponse>
+    public class OpenAccountCommandHandler : CommandHandler<Client, AddClientRequest, OpenAccountResponse>
     {
         public OpenAccountCommandHandler(ICommandRepository<Client> repository) : base(repository)
         {
         }
 
-        public override OpenAccountResponse Handle(ClientRequest request)
+        public override OpenAccountResponse Handle(AddClientRequest request)
         {
-            // todo ajustar expressão que está dando erro
-            var isClientExist = _repository.Get(client => client.CPF.Value == request.CPF);
-
-            if (isClientExist != null)
+            request.CPF = StringFormater.FormatCPF(request.CPF);
+            if (!Validations.ValidateCPF(request.CPF))
             {
-                throw new InvalidOperationException($"Cliente com o CPF {request.CPF} já cadastrado. Por favor utilizar a rota de atualização");
+                throw new InvalidOperationException($"CPF {request.CPF} provided is invalid.");
+            }
+
+            var isClientExist = _repository.Exists(client => client.CPF == request.CPF);
+
+            if (isClientExist)
+            {
+                throw new InvalidOperationException($"Customer with CPF {request.CPF} already registered. Please use the update route.");
             }
 
             var client = new Client()
             {
                 Name = request.Name,
-                CPF = new CPF(request.CPF),
+                //CPF = new CPF(request.CPF),
+                CPF = request.CPF,
                 Email = request.Email,
                 Address = request.Address,
                 Phone = request.Phone,
             };
 
-
             var account = new Account();
-            // account.ClientId = client.Id;
 
             client.Account = account;
 
@@ -48,7 +53,9 @@ namespace XBank.Domain.Core.Commands
 
             var response = new OpenAccountResponse {
                 AccountId = account.Id,
+                ClientId = client.Id,
                 CPF = client.CPF,
+                Name = client.Name,
                 CreatedAt = account.CreatedAt
             };
 

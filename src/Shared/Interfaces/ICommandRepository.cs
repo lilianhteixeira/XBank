@@ -18,10 +18,13 @@ namespace XBank.Domain.Shared.Interfaces
 
         TEntity GetById(Guid id);
 
-        void Save();
-
        TEntity Get(
            Expression<Func<TEntity, bool>> predicate,
            string childEntity = null);
+
+        bool Exists(Expression<Func<TEntity, bool>> predicate);
+
+
+        void Save();
     }
 }

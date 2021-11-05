@@ -26,11 +26,16 @@ namespace XBank.Domain.Infra.Repositories
         {
             if (childEntity != null)
             {
-                return _context.Set<TEntity>().Include(childEntity).Single(predicate);
+                return _context.Set<TEntity>().Include(childEntity).SingleOrDefault(predicate);
             }
 
-            return _context.Set<TEntity>().Single(predicate);
+            return _context.Set<TEntity>().SingleOrDefault(predicate);
 
+        }
+
+        public bool Exists(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _context.Set<TEntity>().Any(predicate);
         }
 
         public TEntity GetById(Guid id)

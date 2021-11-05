@@ -5,31 +5,57 @@ using System.Text;
 using System.Threading.Tasks;
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Requests;
+using XBank.Domain.Core.Responses;
 using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
+using XBank.Domain.Shared.Util;
 
 namespace XBank.Domain.Core.Commands
 {
-    public class UpdateClientCommandHandler : CommandHandler<Client, ClientRequest, object>
+    public class UpdateClientCommandHandler : CommandHandler<Client, UpdateClientRequest, UpdateClientResponse>
     {
         public UpdateClientCommandHandler(ICommandRepository<Client> repository) : base(repository)
         {
         }
 
-        public override object Handle(ClientRequest request)
+        public override UpdateClientResponse Handle(UpdateClientRequest request)
         {
-            var client = _repository.Get(x => x.CPF.Value == request.CPF);
+            var isClientExist = _repository.Exists(client => client.Id == request.GetId());
+
+            if (!isClientExist)
+            {
+                throw new InvalidOperationException($"Customer with Id {request.GetId()} doesn't exist.");
+            }
+
+            var client = _repository.Get(x => x.Id == request.GetId(), "Account");
+
+            if (!client.IsActive && !request.GetActivate())
+            {
+                throw new InvalidOperationException($"You must activate the account before editing.");
+            }
 
             client.Name = request.Name;
             client.Email = request.Email;
             client.Address = request.Address;
             client.Phone = request.Phone;
 
+            if (request.GetActivate())
+            {
+                client.IsActive = true;
+                client.Account.IsActive = true;
+            }
+
             _repository.Update(client);
 
             _repository.Save();
 
-            return client;
+            return new UpdateClientResponse 
+            {
+                Name = client.Name,
+                CPF = client.CPF,
+                UpdatedAt = client.UpdatedAt,
+                isActive = client.IsActive
+            };
         }
     }
 }

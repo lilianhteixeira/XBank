@@ -23,11 +23,11 @@ namespace XBank.Domain.Infra.Configs
 
             builder
                 .Property(client => client.CPF)
-                .HasColumnName("DS_CPF")
-                .HasConversion(
-                  cpf => cpf.Value,
-                  valorDoBanco => new CPF(valorDoBanco)
-                 );
+                .HasColumnName("DS_CPF");
+                //.HasConversion(
+                //  cpf => cpf.Value,
+                //  valorDoBanco => new CPF(valorDoBanco)
+                // );
 
             builder
                 .Property(client => client.Email)

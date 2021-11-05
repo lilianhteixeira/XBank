@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using XBank.Domain.Core.Commands;
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Queries;
@@ -30,7 +25,7 @@ namespace XBank.Service.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add([FromBody] ClientRequest request)
+        public IActionResult Add([FromBody] AddClientRequest request)
         {
             try
             {
@@ -48,10 +43,14 @@ namespace XBank.Service.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] ClientRequest request, [FromQuery] bool activate)
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] Guid id, [FromBody] UpdateClientRequest request, [FromQuery] bool activate)
         {
             try
             {
+                request.SetId(id);
+                request.SetActivate(activate);
+
                 var command = new UpdateClientCommandHandler(_cmdRepository);
 
                 var result = command.Handle(request);
@@ -59,27 +58,29 @@ namespace XBank.Service.API.Controllers
                 return Ok(result);
 
             }
-            catch (Exception)
+            catch (InvalidOperationException exc)
             {
-                return BadRequest("Cliente não encontrado. Digite um CPF válido.");
+                return BadRequest(new { messageError = exc.Message });
             }
         }
 
 
         [HttpDelete]
-        public IActionResult Remove([FromBody] RemoveAccountRequest request)
+        [Route("{id}")]
+        public IActionResult Remove([FromRoute] Guid id, [FromBody] RemoveAccountRequest request)
         {
             try
             {
+                request.SetId(id);
+
                 var command = new RemoveAccountCommandHandler(_cmdRepository);
 
                 command.Handle(request);
 
                 return NoContent();
             }
-            catch (Exception exc)
+            catch (InvalidOperationException exc)
             {
-
                 return BadRequest(exc.Message);
             }
         }
@@ -87,24 +88,38 @@ namespace XBank.Service.API.Controllers
         [HttpGet]
         public IActionResult GetAll([FromQuery] GetAllClientRequest request)
         {
-            var query = new GetAllClientQueryHandler(_qRepository);
+            try
+            {
+                var query = new GetAllClientQueryHandler(_qRepository);
 
-            var result = query.Handle(request);
+                var result = query.Handle(request);
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc.Message);
+            }
         }
 
         [HttpGet]
         [Route("{id}")]
         public IActionResult GetById([FromRoute] Guid id)
         {
-            var query = new GetByIdQueryHandler<Client>(_qRepository);
+            try
+            {
+                var query = new GetByIdQueryHandler<Client>(_qRepository);
 
-            var request = new GetByIdRequest() { Id = id };
+                var request = new GetByIdRequest() { Id = id };
 
-            var result = query.Handle(request);
+                var result = query.Handle(request);
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc.Message);
+            }
         }
     }
 }

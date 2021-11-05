@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using XBank.Domain.Core.Entities;
+using XBank.Domain.Shared.ValueObjects;
 
 namespace XBank.Domain.Infra.Configs
 {
@@ -13,12 +14,20 @@ namespace XBank.Domain.Infra.Configs
             builder.ToTable("TB_CLIENT");
 
             builder
+                .HasIndex(client => client.CPF, "IX_CPF")
+                .IsUnique();
+
+            builder
                 .Property(client => client.Name)
                 .HasColumnName("NM_NAME");
 
             builder
                 .Property(client => client.CPF)
-                .HasColumnName("NR_CPF");
+                .HasColumnName("DS_CPF");
+                //.HasConversion(
+                //  cpf => cpf.Value,
+                //  valorDoBanco => new CPF(valorDoBanco)
+                // );
 
             builder
                 .Property(client => client.Email)

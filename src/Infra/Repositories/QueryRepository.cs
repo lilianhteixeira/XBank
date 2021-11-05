@@ -36,10 +36,15 @@ namespace XBank.Domain.Infra.Repositories
         {
             if (childEntity != null)
             {
-                return _context.Set<TEntity>().Include(childEntity).Single(predicate);
+                return _context.Set<TEntity>()
+                    .AsNoTracking()
+                    .Include(childEntity)
+                    .Single(predicate);
             }
 
-            return _context.Set<TEntity>().Single(predicate);
+            return _context.Set<TEntity>()
+                .AsNoTracking()
+                .Single(predicate);
 
         }
     }

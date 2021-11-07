@@ -11,7 +11,7 @@ namespace XBank.Domain.Core.Requests
     public class AddMovementRequest : Request
     {
         private Guid _accountId { get; set; }
-        public int MovementValue { get; set; }
+        public decimal MovementValue { get; set; }
         public string CPFSend { get; set; }
         public MovementEnum Type { get; set; }
 

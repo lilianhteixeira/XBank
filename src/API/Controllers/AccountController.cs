@@ -11,6 +11,8 @@ using XBank.Domain.Shared.Interfaces;
 
 namespace XBank.Service.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly IQueryRepository<Account> _qRepository;
@@ -23,7 +25,6 @@ namespace XBank.Service.API.Controllers
             _cmdRepository = cmdRepository;
         }
 
-        // POST: AccountController/Create
         [HttpPost]
         [Route("{id}")]
         public ActionResult Create([FromRoute] Guid id, [FromBody] AddMovementRequest request)

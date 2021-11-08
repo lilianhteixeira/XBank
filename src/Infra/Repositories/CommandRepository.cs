@@ -45,13 +45,13 @@ namespace XBank.Domain.Infra.Repositories
 
         public void Remove(TEntity entity)
         {
-            _context.Remove(entity);
+            _context.Set<TEntity>().Remove(entity);
         }
 
         public TEntity Update(TEntity entity)
         {
             entity.UpdatedAt = DateTime.Now;
-            _context.Update(entity);
+            _context.Set<TEntity>().Update(entity);
 
             return entity;
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Enums;
 using XBank.Domain.Core.Requests;
@@ -10,8 +11,13 @@ namespace XBank.Domain.Core.Commands
 {
     public class AddMovementCommandHandler : CommandHandler<Account, AddMovementRequest, object>
     {
-        public AddMovementCommandHandler(ICommandRepository<Account> repository) : base(repository)
+        private readonly ICommandRepository<Movement> _movementRepository;
+
+        public AddMovementCommandHandler(
+            ICommandRepository<Account> accountRepository, 
+            ICommandRepository<Movement> movementRepository) : base(accountRepository)
         {
+            _movementRepository = movementRepository;
         }
 
         public override object Handle(AddMovementRequest request)
@@ -23,23 +29,23 @@ namespace XBank.Domain.Core.Commands
                 throw new InvalidOperationException($"Account with Id {request.GetAccountId()} doesn't exist.");
             }
 
-            var account = _repository.Get(account => account.Id == request.GetAccountId(), "Movements");
+            var account = _repository.Get(account => account.Id == request.GetAccountId(), "Client");
 
             var movement = new Movement();
             movement.MovementValue = request.MovementValue;
             movement.Type = request.Type;
+            movement.Account = account;
 
             if (request.Type == MovementEnum.Deposit)
             {
                 account.Deposit(request.MovementValue);
-                movement.Account = account;
                 movement.Origin = "ATM";
             }
             else
             {
                 request.CPFSend = StringFormater.FormatCPF(request.CPFSend);
 
-                if (!Validations.ValidateCPF(request.CPFSend))
+                if (!Validations.ValidateCPF(request.CPFSend) && request.Type != MovementEnum.Withdraw)
                 {
                     throw new InvalidOperationException($"CPF {request.CPFSend} provided is invalid.");
                 }
@@ -58,17 +64,40 @@ namespace XBank.Domain.Core.Commands
 
                     accountDestination.Deposit(request.MovementValue);
 
+                    var destinationMovement = new Movement()
+                    {
+                        Account = accountDestination,
+                        MovementValue = request.MovementValue,
+                        Origin = account.Client.CPF,
+                        Type = MovementEnum.Deposit
+                    };
+                    _repository.Update(accountDestination);
+                    _movementRepository.Add(destinationMovement);
+
                 }
                 else if (request.Type == MovementEnum.ExternalTransfer)
                 {
                     // Call the external API first and then make the transfer
+                    movement.Origin = account.Client.CPF;
                 }
+                else
+                {
+                    // only withdraw
+                    movement.Origin = "ATM";
+                }
+
 
                 account.Withdraw(request.MovementValue);
             }
 
-
+            movement.CPFSend = request.Type == MovementEnum.ExternalTransfer || request.Type == MovementEnum.InternalTransfer
+                ? request.CPFSend
+                : account.Client.CPF;
+            
+            _movementRepository.Add(movement);
+            _repository.Update(account);
             _repository.Save();
+
             return null;
         }
     }

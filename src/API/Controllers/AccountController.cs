@@ -16,13 +16,19 @@ namespace XBank.Service.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IQueryRepository<Account> _qRepository;
-        private readonly ICommandRepository<Account> _cmdRepository;
+        private readonly ICommandRepository<Movement> _cmdMovementRepository;
+        private readonly ICommandRepository<Account> _cmdAccountRepository;
 
 
-        public AccountController(IQueryRepository<Account> qRepository, ICommandRepository<Account> cmdRepository)
+        public AccountController(
+            IQueryRepository<Account> qRepository,
+            ICommandRepository<Account> cmdAccountRepository,
+            ICommandRepository<Movement> cmdMovementRepository
+            )
         {
             _qRepository = qRepository;
-            _cmdRepository = cmdRepository;
+            _cmdMovementRepository = cmdMovementRepository;
+            _cmdAccountRepository = cmdAccountRepository;
         }
 
         [HttpPost]
@@ -33,7 +39,7 @@ namespace XBank.Service.API.Controllers
             {
                 request.SetAccountId(id);
 
-                var command = new AddMovementCommandHandler(_cmdRepository);
+                var command = new AddMovementCommandHandler(_cmdAccountRepository, _cmdMovementRepository);
 
                 var result = command.Handle(request);
 

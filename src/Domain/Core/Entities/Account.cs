@@ -17,13 +17,13 @@ namespace XBank.Domain.Core.Entities
             throw new NotImplementedException();
         }
 
-        public void Transfer()
-        {
-            throw new NotImplementedException();
-        }
+        //public void Transfer()
+        //{
+        //    throw new NotImplementedException();
+        //}
         public void Withdraw(decimal movementValue)
         {
-            if (movementValue < 0)
+            if (movementValue <= 0)
             {
                 throw new ArgumentOutOfRangeException("Please enter a valid value that is greater than zero.");
             } else if (Balance < movementValue)
@@ -36,7 +36,7 @@ namespace XBank.Domain.Core.Entities
 
         public void Deposit(decimal movementValue)
         {
-            if (movementValue < 0)
+            if (movementValue <= 0)
             {
                 throw new ArgumentOutOfRangeException("Please enter a valid value that is greater than zero.");
             }

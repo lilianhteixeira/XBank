@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using XBank.Domain.Core.Commands;
 using XBank.Domain.Core.Entities;
@@ -10,6 +11,7 @@ using XBank.Domain.Core.Queries;
 using XBank.Domain.Core.Requests;
 using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
+using XBank.Domain.Shared.Requests;
 
 namespace XBank.Service.API.Controllers
 {
@@ -17,13 +19,13 @@ namespace XBank.Service.API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly IQueryRepository<Account> _qRepository;
+        private readonly IQueryRepository<Movement> _qRepository;
         private readonly ICommandRepository<Movement> _cmdMovementRepository;
         private readonly ICommandRepository<Account> _cmdAccountRepository;
 
 
         public AccountController(
-            IQueryRepository<Account> qRepository,
+            IQueryRepository<Movement> qRepository,
             ICommandRepository<Account> cmdAccountRepository,
             ICommandRepository<Movement> cmdMovementRepository
             )
@@ -41,7 +43,7 @@ namespace XBank.Service.API.Controllers
             {
                 request.SetAccountId(id);
 
-                var command = new AddMovementCommandHandler(_cmdAccountRepository, _cmdMovementRepository);
+                var command = new AddAccountMovementCommandHandler(_cmdAccountRepository, _cmdMovementRepository);
 
                 var result = command.Handle(request);
 
@@ -61,11 +63,19 @@ namespace XBank.Service.API.Controllers
             {
                 var query = new GetAccountMovementsHandler(_qRepository);
 
-                var request = new GetAccountMovementsRequest();
+                var request = new GetByIdRequest();
 
                 request.SetId(id);
 
                 var result = query.Handle(request);
+
+                //var options = new JsonSerializerOptions
+                //{
+                //    PropertyNameCaseInsensitive = true,
+                    
+                //};
+
+                // var response = JsonSerializer.Serialize(result, options);
 
                 return Ok(result);
             }

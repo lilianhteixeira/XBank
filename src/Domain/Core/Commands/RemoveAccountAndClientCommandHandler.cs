@@ -7,17 +7,18 @@ using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Requests;
 using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
+using XBank.Domain.Shared.Requests;
 using XBank.Domain.Shared.Util;
 
 namespace XBank.Domain.Core.Commands
 {
-    public class RemoveAccountAndClientCommandHandler : CommandHandler<Client, RemoveClientRequest, Object>
+    public class RemoveAccountAndClientCommandHandler : CommandHandler<Client, GetByIdRequest, Object>
     {
         public RemoveAccountAndClientCommandHandler(ICommandRepository<Client> repository) : base(repository)
         {
         }
 
-        public override object Handle(RemoveClientRequest request)
+        public override object Handle(GetByIdRequest request)
         {
 
             var isClientExist = _repository.Exists(client => client.Id == request.GetId());

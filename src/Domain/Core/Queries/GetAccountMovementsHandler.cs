@@ -1,24 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using XBank.Domain.Core.Entities;
-using XBank.Domain.Core.Requests;
+using XBank.Domain.Core.Responses;
 using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
+using XBank.Domain.Shared.Requests;
 
 namespace XBank.Domain.Core.Queries
 {
-    public class GetAccountMovementsHandler : QueryHandler<Account, GetAccountMovementsRequest, IEnumerable<Movement>>
+    public class GetAccountMovementsHandler : QueryHandler<Movement, GetByIdRequest, IEnumerable<GetAccountMovementsResponse>>
     {
-        public GetAccountMovementsHandler(IQueryRepository<Account> repository) : base(repository)
+        public GetAccountMovementsHandler(IQueryRepository<Movement> repository) : base(repository)
         {
         }
 
-        public override IEnumerable<Movement> Handle(GetAccountMovementsRequest request)
+        public override IEnumerable<GetAccountMovementsResponse> Handle(GetByIdRequest request)
         {
-            throw new NotImplementedException();
+            var result = _repository
+                .Get(movement => movement.AccountId == request.GetId());
+
+            return result.Select(movement => new GetAccountMovementsResponse(movement));
         }
     }
 }

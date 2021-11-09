@@ -9,11 +9,11 @@ using XBank.Domain.Shared.Util;
 
 namespace XBank.Domain.Core.Commands
 {
-    public class AddMovementCommandHandler : CommandHandler<Account, AddMovementRequest, object>
+    public class AddAccountMovementCommandHandler : CommandHandler<Account, AddMovementRequest, object>
     {
         private readonly ICommandRepository<Movement> _movementRepository;
 
-        public AddMovementCommandHandler(
+        public AddAccountMovementCommandHandler(
             ICommandRepository<Account> accountRepository, 
             ICommandRepository<Movement> movementRepository) : base(accountRepository)
         {
@@ -59,8 +59,7 @@ namespace XBank.Domain.Core.Commands
                         throw new InvalidOperationException($"The requested CPF does not have an account with us.");
                     }
 
-
-                    var accountDestination = _repository.Get(account => account.Client.CPF == request.CPFSend);
+                    var accountDestination = _repository.Get(account => account.Client.CPF == request.CPFSend, "Client");
 
                     accountDestination.Deposit(request.MovementValue);
 
@@ -69,10 +68,14 @@ namespace XBank.Domain.Core.Commands
                         Account = accountDestination,
                         MovementValue = request.MovementValue,
                         Origin = account.Client.CPF,
-                        Type = MovementEnum.Deposit
+                        Type = MovementEnum.Deposit,
+                        CPFSend = accountDestination.Client.CPF
+
                     };
                     _repository.Update(accountDestination);
                     _movementRepository.Add(destinationMovement);
+
+                    movement.Origin = account.Client.CPF;
 
                 }
                 else if (request.Type == MovementEnum.ExternalTransfer)

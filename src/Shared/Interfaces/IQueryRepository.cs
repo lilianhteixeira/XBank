@@ -12,5 +12,6 @@ namespace XBank.Domain.Shared.Interfaces
     {
         TEntity GetById(Guid id);
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
+        TEntity Get(Expression<Func<TEntity, bool>> predicate, string childEntity);
     }
 }

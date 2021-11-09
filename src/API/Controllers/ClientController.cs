@@ -67,7 +67,7 @@ namespace XBank.Service.API.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Remove([FromRoute] Guid id, [FromBody] RemoveClientRequest request)
+        public IActionResult Remove([FromRoute] Guid id, [FromBody] GetByIdRequest request)
         {
             try
             {

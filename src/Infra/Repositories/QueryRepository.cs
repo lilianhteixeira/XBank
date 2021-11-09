@@ -26,26 +26,20 @@ namespace XBank.Domain.Infra.Repositories
                 ? _context.Set<TEntity>().AsNoTracking().ToList()
                 : _context.Set<TEntity>().AsNoTracking().Where(predicate);
         }
+        
+        public TEntity Get(Expression<Func<TEntity, bool>> predicate, string childEntity)
+        {
+            return _context.Set<TEntity>()
+                .AsNoTracking()
+                .Include(childEntity)
+                .Single(predicate);
+        }
 
         public TEntity GetById(Guid id)
         {
             return _context.Set<TEntity>().AsNoTracking().Single(x => x.Id == id);
         }
 
-        public TEntity Get(Expression<Func<TEntity, bool>> predicate, string childEntity = null)
-        {
-            if (childEntity != null)
-            {
-                return _context.Set<TEntity>()
-                    .AsNoTracking()
-                    .Include(childEntity)
-                    .Single(predicate);
-            }
 
-            return _context.Set<TEntity>()
-                .AsNoTracking()
-                .Single(predicate);
-
-        }
     }
 }

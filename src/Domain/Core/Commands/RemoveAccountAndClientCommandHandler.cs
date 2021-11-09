@@ -11,13 +11,13 @@ using XBank.Domain.Shared.Util;
 
 namespace XBank.Domain.Core.Commands
 {
-    public class RemoveAccountCommandHandler : CommandHandler<Client, RemoveAccountRequest, Object>
+    public class RemoveAccountAndClientCommandHandler : CommandHandler<Client, RemoveClientRequest, Object>
     {
-        public RemoveAccountCommandHandler(ICommandRepository<Client> repository) : base(repository)
+        public RemoveAccountAndClientCommandHandler(ICommandRepository<Client> repository) : base(repository)
         {
         }
 
-        public override object Handle(RemoveAccountRequest request)
+        public override object Handle(RemoveClientRequest request)
         {
 
             var isClientExist = _repository.Exists(client => client.Id == request.GetId());

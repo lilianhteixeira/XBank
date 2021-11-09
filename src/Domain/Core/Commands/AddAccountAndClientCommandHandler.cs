@@ -8,9 +8,9 @@ using XBank.Domain.Shared.Util;
 
 namespace XBank.Domain.Core.Commands
 {
-    public class OpenAccountCommandHandler : CommandHandler<Client, AddClientRequest, OpenAccountResponse>
+    public class AddAccountAndClientCommandHandler : CommandHandler<Client, AddClientRequest, OpenAccountResponse>
     {
-        public OpenAccountCommandHandler(ICommandRepository<Client> repository) : base(repository)
+        public AddAccountAndClientCommandHandler(ICommandRepository<Client> repository) : base(repository)
         {
         }
 

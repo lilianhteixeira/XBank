@@ -29,7 +29,7 @@ namespace XBank.Service.API.Controllers
         {
             try
             {
-                var command = new OpenAccountCommandHandler(_cmdRepository);
+                var command = new AddAccountAndClientCommandHandler(_cmdRepository);
 
                 var result = command.Handle(request);
 
@@ -67,13 +67,13 @@ namespace XBank.Service.API.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Remove([FromRoute] Guid id, [FromBody] RemoveAccountRequest request)
+        public IActionResult Remove([FromRoute] Guid id, [FromBody] RemoveClientRequest request)
         {
             try
             {
                 request.SetId(id);
 
-                var command = new RemoveAccountCommandHandler(_cmdRepository);
+                var command = new RemoveAccountAndClientCommandHandler(_cmdRepository);
 
                 command.Handle(request);
 

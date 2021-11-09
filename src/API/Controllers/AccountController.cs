@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using XBank.Domain.Core.Commands;
 using XBank.Domain.Core.Entities;
+using XBank.Domain.Core.Queries;
 using XBank.Domain.Core.Requests;
 using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
@@ -52,25 +53,26 @@ namespace XBank.Service.API.Controllers
             }
         }
 
-        //[HttpGet]
-        //[Route("{id}")]
-        //public ActionResult GetExtract([FromRoute] Guid id, [FromBody] AddMovementRequest request)
-        //{
-        //    try
-        //    {
-        //        var query = new GetByIdQueryHandler(_qRepository);
+        [HttpGet]
+        [Route("{id}")]
+        public ActionResult GetExtract([FromRoute] Guid id)
+        {
+            try
+            {
+                var query = new GetAccountMovementsHandler(_qRepository);
 
-        //        var request = new GetByIdRequest();
-        //        request.SetId(id);
+                var request = new GetAccountMovementsRequest();
 
-        //        var result = query.Handle(request);
+                request.SetId(id);
 
-        //        return Ok(result);
-        //    }
-        //    catch (Exception exc)
-        //    {
-        //        return BadRequest(new { messageError = exc.Message });
-        //    }
-        //}
+                var result = query.Handle(request);
+
+                return Ok(result);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(new { messageError = exc.Message });
+            }
+        }
     }
 }

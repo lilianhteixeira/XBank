@@ -110,7 +110,8 @@ namespace XBank.Service.API.Controllers
             {
                 var query = new GetByIdQueryHandler<Client>(_qRepository);
 
-                var request = new GetByIdRequest() { Id = id };
+                var request = new GetByIdRequest();
+                request.SetId(id);
 
                 var result = query.Handle(request);
 

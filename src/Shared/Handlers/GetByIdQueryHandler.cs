@@ -18,7 +18,7 @@ namespace XBank.Domain.Shared.Handlers
 
         public override TEntity Handle(GetByIdRequest request)
         {
-                return _repository.GetById(request.Id);
+                return _repository.GetById(request.GetId());
         }
     }
 }

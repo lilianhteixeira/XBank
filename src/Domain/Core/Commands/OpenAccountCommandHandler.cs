@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Requests;
 using XBank.Domain.Core.Responses;
 using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
 using XBank.Domain.Shared.Util;
-using XBank.Domain.Shared.ValueObjects;
 
 namespace XBank.Domain.Core.Commands
 {
@@ -37,7 +32,6 @@ namespace XBank.Domain.Core.Commands
             var client = new Client()
             {
                 Name = request.Name,
-                //CPF = new CPF(request.CPF),
                 CPF = request.CPF,
                 Email = request.Email,
                 Address = request.Address,

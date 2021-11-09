@@ -29,6 +29,10 @@ namespace XBank.Domain.Infra.Configs
                 .HasColumnName("ID_ACCOUNT");
 
             builder
+                .Property(movement => movement.Origin)
+                .HasColumnName("NM_ORIGIN");
+
+            builder
                 .HasOne(movement => movement.Account)
                 .WithMany(account => account.Movements)
                 .HasForeignKey(movement => movement.AccountId);

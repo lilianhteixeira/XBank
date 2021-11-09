@@ -21,9 +21,27 @@ namespace XBank.Domain.Core.Entities
         {
             throw new NotImplementedException();
         }
-        public void Withdraw()
+        public void Withdraw(decimal movementValue)
         {
-            throw new NotImplementedException();
+            if (movementValue < 0)
+            {
+                throw new ArgumentOutOfRangeException("Please enter a valid value that is greater than zero.");
+            } else if (Balance < movementValue)
+            {
+                throw new InvalidOperationException("Insufficient balance.");
+            }
+
+            Balance -= movementValue;
+        }
+
+        public void Deposit(decimal movementValue)
+        {
+            if (movementValue < 0)
+            {
+                throw new ArgumentOutOfRangeException("Please enter a valid value that is greater than zero.");
+            }
+
+            Balance += movementValue;
         }
     }
 }

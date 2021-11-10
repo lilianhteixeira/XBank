@@ -79,3 +79,82 @@ Construção de uma API com arquitetura REST para gerenciar as transações da n
                             | 📄 Program.cs
                             | 📄 Startup.cs
                             | 📄 WeatherForecast.cs
+                            
+## Fluxograma da API 
+
+<p align="center"><img src="assets/Fluxograma.png"/></p>
+
+##  Links
+#### local: http://localhost:52227
+#### API: https://localhost:5001; http://localhost:5000
+
+## Iniciando aplicação
+- Use o comando `dotnet build` para compilar o projeto
+- Após a compilação use o comando `dotnet run` para inicializar a aplicação
+
+## Rotas e modelos com campos obrigatórios para teste
+
+##  - Account
+####  `POST`
+**​/api​/Account​/{id}**
+```js
+{
+  "movementValue": 0,
+  "cpfSend": "string",
+  "type": 1
+}
+```
+####  `GET`
+**​/api​/Account​/{id}**
+
+
+
+## - Client
+####  `POST`
+**Rota:**   */api/Client* 
+```js
+{
+  "name": "string",
+  "email": "string",
+  "address": "string",
+  "phone": "string",
+  "cpf": "string"
+}
+```
+
+####  `GET`
+**​/api​/Client**
+
+####  `PUT`
+**​/api​/Client​/{id}**
+```js
+{
+  "name": "string",
+  "email": "string",
+  "address": "string",
+  "phone": "string"
+}
+```
+####  `DELETE`
+**​/api​/Client​/{id}**
+
+####  `GET`
+**​/api​/Client​/{id}**
+
+##  Schemas SQL
+<p align="center"><img src="assets/schema.png"/></p>
+
+##  Organização do Projeto:
+#### [Miro](https://miro.com/app/board/o9J_lmihxys=/?invite_link_id=73148829103)
+#### [Apresentação Canvas](https://www.canva.com/design/DAEvWuTP9X4/xSjWeqm4U6Dmsh2MSvwhZA/view?utm_content=DAEvWuTP9X4&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink)
+
+## Equipe:
+#### [Gaciela Nonato](https://www.linkedin.com/in/gracielalopes/)
+#### [Lilian Teixeira](https://www.linkedin.com/in/lilianhteixeira/)
+#### [Simoni Accioly](https://www.linkedin.com/in/simoniaccioly/)
+#### [Tassila Bomfim](https://www.linkedin.com/in/tassilabomfim/)
+#### [Vitor Conceicao](https://www.linkedin.com/in/vitorrodrig/)
+
+
+
+                            

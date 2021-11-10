@@ -3,26 +3,44 @@
 ## Descrição
 API desenvolvida como Projeto Final para a conclusão do curso de .NET da [XP Inc.](https://www.xpi.com.br/) em parceria com a [GamaAcademy](https://www.gama.academy/)
 
-#Sumário
+### Sumário
 ==================
-<!--ts-->
-	*[Proposta do projeto final](#Proposta do projeto final)
-	*[Regras de negócio](#Regras de negócio)
-	*[Arquitetura](#Arquitetura)
-<!--te-->
+
+- [Proposta do projeto final](#Proposta-do-projeto-final)
+- [Regras de negócio](#Regras-de-negócio)
+- [Arquitetura](#Arquitetura)
+
 
 ### Proposta do projeto final 
 Construção de uma API com arquitetura REST para gerenciar as transações da nossa instituição bancária, o **XBank**. Capaz de executar um CRUD, as quatro operações básicas usadas em Banco de Dados Relacionais - Create (Criação), Read (Consulta), Update (Atualização) e Delete (Destruição), em um banco de dados NoSQL.
 
 ### Regras de negócio
-```sh
-- Quando criar/desativar um cliente a conta será afetada
-- Não será possivel cadastrar um cliente com CPF já cadastrado
-- Atualizar Cliente atualiza os dados ou reativar a conta
-- Não será possivel fazer movimentações negativas e nem superiores ao saldo da conta
-- Saque por cliente ilimitado
-- Histórico de operações por conta-corrente
-- Abertura de conta poderá ser feita apenas com os dados obrigatorios: Nome completo, Cpf, Rg, endereço, telefone, email.
+#### Cliente
+```hs
+- Quando um cliente é cadastrado imediatamente está ativando e se vinculando a uma conta.
+- Um cliente ao ser atualizado/desativado a sua conta será afetada.
+- Não será possível cadastrar um cliente com CPF já cadastrado.
+- Todos os dados cadastrais solicitados são obrigatórios.
+``` 
+
+#### Conta
+```hs
+- Uma conta só pode ser criada quando um cliente é cadastrado.
+- Quando atualizar/desativar uma conta o cliente vinculado será afetado.
+- Permitido apenas uma conta por CPF.
+- Uma solicitação de cancelamento não deleta a conta e dados do cliente do banco, apenas desativa,  permanecendo todos os dados no banco de dados.
+- O Saque deve conter a data e hora de quando foi realizado e o valor.
+```
+
+#### Movimentação
+```hs
+- Saque por cliente ilimitado.
+- É possível realizar o histórico de movimentações por conta.
+- Não será possível fazer movimentações negativas e nem superiores ao saldo da conta.
+- Para realizar movimentação é necessário CPF de destino.
+- A movimentação está vinculada a uma conta.
+- Movimentações disponíveis saque, transferencia e depósito.
+- No extrato ficará disponibilizado para o cliente a data e a hora das movimentações.
 ```
 
 ### Arquitetura

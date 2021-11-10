@@ -155,6 +155,8 @@ Construção de uma API com arquitetura REST para gerenciar as transações da n
 #### [Tassila Bomfim](https://www.linkedin.com/in/tassilabomfim/)
 #### [Vitor Conceicao](https://www.linkedin.com/in/vitorrodrig/)
 
+<br>
 
+> A plataforma foi desenvolvida como Projeto Final para a conclusão do curso de .NET da [XP Inc.] em parceria com a [GamaAcademy] e todos os dados foram tratados de maneira fictícia.
 
                             

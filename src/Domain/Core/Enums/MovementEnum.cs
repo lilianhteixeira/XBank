@@ -7,10 +7,10 @@ namespace XBank.Domain.Core.Enums
         [Description("Retirada")]
         Withdraw = 1,
 
-        [Description("Transferencia")]
+        [Description("Transferencia entre contas")]
         InternalTransfer = 2,
 
-        [Description("Transferencia")]
+        [Description("Transferencia entre bancos")]
         ExternalTransfer = 3,
 
         [Description("Deposito")]

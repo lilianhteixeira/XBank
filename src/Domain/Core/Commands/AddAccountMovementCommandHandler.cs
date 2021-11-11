@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using XBank.Domain.Core.CustomExceptions;
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Enums;
 using XBank.Domain.Core.Requests;
@@ -26,7 +25,7 @@ namespace XBank.Domain.Core.Commands
 
             if (!isAccountExist)
             {
-                throw new InvalidOperationException($"Account with Id {request.GetAccountId()} doesn't exist.");
+                throw new DomainException($"Account with Id {request.GetAccountId()} doesn't exist.", 400);
             }
 
             var account = _repository.Get(account => account.Id == request.GetAccountId(), "Client");
@@ -47,7 +46,7 @@ namespace XBank.Domain.Core.Commands
 
                 if (!Validations.ValidateCPF(request.CPFSend) && request.Type != MovementEnum.Withdraw)
                 {
-                    throw new InvalidOperationException($"CPF {request.CPFSend} provided is invalid.");
+                    throw new DomainException($"CPF {request.CPFSend} provided is invalid.", 400);
                 }
 
                 if (request.Type == MovementEnum.InternalTransfer)
@@ -56,7 +55,7 @@ namespace XBank.Domain.Core.Commands
 
                     if (!isCPFDestinationExist)
                     {
-                        throw new InvalidOperationException($"The requested CPF does not have an account with us.");
+                        throw new DomainException($"The requested CPF does not have an account with us.", 404);
                     }
 
                     var accountDestination = _repository.Get(account => account.Client.CPF == request.CPFSend, "Client");

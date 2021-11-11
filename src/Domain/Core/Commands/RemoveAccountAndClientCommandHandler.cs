@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using XBank.Domain.Core.CustomExceptions;
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Requests;
 using XBank.Domain.Shared.Handlers;
@@ -25,7 +26,7 @@ namespace XBank.Domain.Core.Commands
 
             if (!isClientExist)
             {
-                throw new InvalidOperationException($"Customer with Id {request.GetId()} doesn't exist.");
+                throw new DomainException($"Customer with Id {request.GetId()} doesn't exist.", 400);
             }
 
             var client = _repository.Get(x => x.Id == request.GetId(), "Account");

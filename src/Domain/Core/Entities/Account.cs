@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using XBank.Domain.Core.CustomExceptions;
 using XBank.Domain.Shared.Entities;
 
 namespace XBank.Domain.Core.Entities
@@ -25,10 +26,10 @@ namespace XBank.Domain.Core.Entities
         {
             if (movementValue <= 0)
             {
-                throw new ArgumentOutOfRangeException("Please enter a valid value that is greater than zero.");
+                throw new DomainException("Please enter a valid value that is greater than zero.", 400);
             } else if (Balance < movementValue)
             {
-                throw new InvalidOperationException("Insufficient balance.");
+                throw new DomainException("Insufficient balance.", 400);
             }
 
             Balance -= movementValue;
@@ -38,7 +39,7 @@ namespace XBank.Domain.Core.Entities
         {
             if (movementValue <= 0)
             {
-                throw new ArgumentOutOfRangeException("Please enter a valid value that is greater than zero.");
+                throw new DomainException("Please enter a valid value that is greater than zero.", 400);
             }
 
             Balance += movementValue;

@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using XBank.Domain.Core.Commands;
+using XBank.Domain.Core.CustomExceptions;
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Queries;
 using XBank.Domain.Core.Requests;
-using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
 using XBank.Domain.Shared.Requests;
 
@@ -37,52 +33,37 @@ namespace XBank.Service.API.Controllers
 
         [HttpPost]
         [Route("{id}")]
-        public ActionResult Create([FromRoute] Guid id, [FromBody] AddMovementRequest request)
+        public ActionResult Add([FromRoute] Guid id, [FromBody] AddMovementRequest request)
         {
-            try
-            {
-                request.SetAccountId(id);
 
-                var command = new AddAccountMovementCommandHandler(_cmdAccountRepository, _cmdMovementRepository);
+            request.SetAccountId(id);
 
-                var result = command.Handle(request);
+            var command = new AddAccountMovementCommandHandler(_cmdAccountRepository, _cmdMovementRepository);
 
-                return Created("", result);
-            }
-            catch (Exception exc)
-            {
-                return BadRequest(new { messageError = exc.Message });
-            }
+            var result = command.Handle(request);
+
+            return Created("", result);
+
         }
 
         [HttpGet]
         [Route("{id}")]
         public ActionResult GetExtract([FromRoute] Guid id)
         {
-            try
-            {
-                var query = new GetAccountMovementsHandler(_qRepository);
 
-                var request = new GetByIdRequest();
+            var query = new GetAccountMovementsHandler(_qRepository);
 
-                request.SetId(id);
+            var request = new GetByIdRequest();
 
-                var result = query.Handle(request);
+            request.SetId(id);
 
-                //var options = new JsonSerializerOptions
-                //{
-                //    PropertyNameCaseInsensitive = true,
-                    
-                //};
+            var result = query.Handle(request);
 
-                // var response = JsonSerializer.Serialize(result, options);
 
-                return Ok(result);
-            }
-            catch (Exception exc)
-            {
-                return BadRequest(new { messageError = exc.Message });
-            }
+            var response = JsonSerializer.Serialize(result);
+
+            return Ok(response);
+
         }
     }
 }

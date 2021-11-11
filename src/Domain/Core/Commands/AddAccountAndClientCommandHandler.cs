@@ -1,4 +1,4 @@
-﻿using System;
+﻿using XBank.Domain.Core.CustomExceptions;
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Requests;
 using XBank.Domain.Core.Responses;
@@ -19,14 +19,14 @@ namespace XBank.Domain.Core.Commands
             request.CPF = StringFormater.FormatCPF(request.CPF);
             if (!Validations.ValidateCPF(request.CPF))
             {
-                throw new InvalidOperationException($"CPF {request.CPF} provided is invalid.");
+                throw new DomainException($"CPF {request.CPF} provided is invalid.", 400);
             }
 
             var isClientExist = _repository.Exists(client => client.CPF == request.CPF);
 
             if (isClientExist)
             {
-                throw new InvalidOperationException($"Customer with CPF {request.CPF} already registered. Please use the update route.");
+                throw new DomainException($"Customer with CPF {request.CPF} already registered. Please use the update route.", 400);
             }
 
             var client = new Client()

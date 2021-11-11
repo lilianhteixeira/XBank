@@ -16,10 +16,12 @@ namespace XBank.Domain.Infra.Configs
 
             builder
                 .Property(x => x.CreatedAt)
+                .HasColumnType("SmallDateTime")
                 .HasColumnName("DT_CREATED");
 
             builder
                 .Property(x => x.UpdatedAt)
+                .HasColumnType("SmallDateTime")
                 .HasColumnName("DT_UPDATED");
 
             builder

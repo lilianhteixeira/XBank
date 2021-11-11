@@ -2,7 +2,6 @@
 using System;
 using System.Text.Json;
 using XBank.Domain.Core.Commands;
-using XBank.Domain.Core.CustomExceptions;
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Queries;
 using XBank.Domain.Core.Requests;
@@ -16,17 +15,20 @@ namespace XBank.Service.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IQueryRepository<Movement> _qRepository;
+        private readonly IQueryRepository<Account> _qAccountRepository;
         private readonly ICommandRepository<Movement> _cmdMovementRepository;
         private readonly ICommandRepository<Account> _cmdAccountRepository;
 
 
         public AccountController(
             IQueryRepository<Movement> qRepository,
+            IQueryRepository<Account> qAccountRepository,
             ICommandRepository<Account> cmdAccountRepository,
             ICommandRepository<Movement> cmdMovementRepository
             )
         {
             _qRepository = qRepository;
+            _qAccountRepository = qAccountRepository;
             _cmdMovementRepository = cmdMovementRepository;
             _cmdAccountRepository = cmdAccountRepository;
         }
@@ -48,6 +50,20 @@ namespace XBank.Service.API.Controllers
 
         [HttpGet]
         [Route("{id}")]
+        public ActionResult GetById([FromRoute] Guid id)
+        {
+            var query = new GetAccountHandler(_qAccountRepository);
+            var request = new GetByIdRequest();
+            request.SetId(id);
+
+            var result = query.Handle(request);
+
+            return Ok(result);
+        }
+
+
+        [HttpGet]
+        [Route("{id}/extract")]
         public ActionResult GetExtract([FromRoute] Guid id)
         {
 
@@ -63,7 +79,7 @@ namespace XBank.Service.API.Controllers
             var response = JsonSerializer.Serialize(result);
 
             return Ok(response);
-
         }
+
     }
 }

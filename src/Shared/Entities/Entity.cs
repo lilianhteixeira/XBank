@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace  XBank.Domain.Shared.Entities
+namespace XBank.Domain.Shared.Entities
 {
     public abstract class Entity
     {

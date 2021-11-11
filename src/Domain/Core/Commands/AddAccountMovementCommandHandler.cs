@@ -2,13 +2,14 @@
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Enums;
 using XBank.Domain.Core.Requests;
+using XBank.Domain.Core.Responses;
 using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
 using XBank.Domain.Shared.Util;
 
 namespace XBank.Domain.Core.Commands
 {
-    public class AddAccountMovementCommandHandler : CommandHandler<Account, AddMovementRequest, object>
+    public class AddAccountMovementCommandHandler : CommandHandler<Account, AddMovementRequest, AddAccountMovementResponse>
     {
         private readonly ICommandRepository<Movement> _movementRepository;
 
@@ -19,7 +20,7 @@ namespace XBank.Domain.Core.Commands
             _movementRepository = movementRepository;
         }
 
-        public override object Handle(AddMovementRequest request)
+        public override AddAccountMovementResponse Handle(AddMovementRequest request)
         {
             var isAccountExist = _repository.Exists(account => account.Id == request.GetAccountId());
 
@@ -100,7 +101,7 @@ namespace XBank.Domain.Core.Commands
             _repository.Update(account);
             _repository.Save();
 
-            return null;
+            return new AddAccountMovementResponse { Id = movement.Id, CreatedAt = movement.CreatedAt };
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using XBank.Domain.Core.Entities;
-using XBank.Domain.Shared.ValueObjects;
 
 namespace XBank.Domain.Infra.Configs
 {
@@ -23,11 +22,7 @@ namespace XBank.Domain.Infra.Configs
 
             builder
                 .Property(client => client.CPF)
-                .HasColumnName("DS_CPF");
-                //.HasConversion(
-                //  cpf => cpf.Value,
-                //  valorDoBanco => new CPF(valorDoBanco)
-                // );
+                .HasColumnName("NM_CPF");
 
             builder
                 .Property(client => client.Email)

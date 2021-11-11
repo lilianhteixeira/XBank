@@ -1,6 +1,4 @@
-﻿using System;
-using XBank.Domain.Shared.Entities;
-using XBank.Domain.Shared.ValueObjects;
+﻿using XBank.Domain.Shared.Entities;
 
 namespace XBank.Domain.Core.Entities
 {

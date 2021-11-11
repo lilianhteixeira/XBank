@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using XBank.Domain.Core.Commands;
+using XBank.Domain.Core.CustomExceptions;
 using XBank.Domain.Core.Entities;
-using XBank.Domain.Core.Queries;
 using XBank.Domain.Core.Requests;
 using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
@@ -27,100 +27,56 @@ namespace XBank.Service.API.Controllers
         [HttpPost]
         public IActionResult Add([FromBody] AddClientRequest request)
         {
-            try
-            {
-                var command = new AddAccountAndClientCommandHandler(_cmdRepository);
 
-                var result = command.Handle(request);
+            var command = new AddAccountAndClientCommandHandler(_cmdRepository);
 
-                return Created("", result);
+            var result = command.Handle(request);
 
-            }
-            catch (InvalidOperationException exc)
-            {
-                return BadRequest(new { messageError = exc.Message });
-            }
+            return Created("", result);
         }
 
         [HttpPut]
         [Route("{id}")]
         public IActionResult Update([FromRoute] Guid id, [FromBody] UpdateClientRequest request, [FromQuery] bool activate)
         {
-            try
-            {
-                request.SetId(id);
-                request.SetActivate(activate);
+            request.SetId(id);
+            request.SetActivate(activate);
 
-                var command = new UpdateClientCommandHandler(_cmdRepository);
+            var command = new UpdateClientCommandHandler(_cmdRepository);
 
-                var result = command.Handle(request);
+            var result = command.Handle(request);
 
-                return Ok(result);
-
-            }
-            catch (InvalidOperationException exc)
-            {
-                return BadRequest(new { messageError = exc.Message });
-            }
+            return Ok(result);
         }
 
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Remove([FromRoute] Guid id, [FromBody] GetByIdRequest request)
+        public IActionResult Remove([FromRoute] Guid id)
         {
-            try
-            {
-                request.SetId(id);
+            var request = new GetByIdRequest();
 
-                var command = new RemoveAccountAndClientCommandHandler(_cmdRepository);
+            request.SetId(id);
 
-                command.Handle(request);
+            var command = new RemoveAccountAndClientCommandHandler(_cmdRepository);
 
-                return NoContent();
-            }
-            catch (InvalidOperationException exc)
-            {
-                return BadRequest(exc.Message);
-            }
-        }
+            command.Handle(request);
 
-        [HttpGet]
-        public IActionResult GetAll([FromQuery] GetAllClientRequest request)
-        {
-            try
-            {
-                var query = new GetAllClientQueryHandler(_qRepository);
-
-                var result = query.Handle(request);
-
-                return Ok(result);
-            }
-            catch (Exception exc)
-            {
-                return BadRequest(exc.Message);
-            }
+            return NoContent();
         }
 
         [HttpGet]
         [Route("{id}")]
         public IActionResult GetById([FromRoute] Guid id)
         {
-            try
-            {
-                var query = new GetByIdQueryHandler<Client>(_qRepository);
+            var query = new GetByIdQueryHandler<Client>(_qRepository);
 
-                var request = new GetByIdRequest();
-                request.SetId(id);
+            var request = new GetByIdRequest();
+            request.SetId(id);
 
-                var result = query.Handle(request);
+            var result = query.Handle(request);
 
-                return Ok(result);
-            }
-            catch (Exception exc)
-            {
-                return BadRequest(exc.Message);
-            }
+            return Ok(result);
         }
     }
 }

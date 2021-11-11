@@ -15,6 +15,7 @@ namespace XBank.Domain.Infra.Configs
             builder
                 .Property(account => account.Balance)
                 .HasColumnType("money")
+                .HasPrecision(10)
                 .HasColumnName("VL_BALANCE");
 
             builder

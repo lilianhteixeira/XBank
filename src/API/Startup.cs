@@ -15,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using XBank.Domain.Infra.Contexts;
 using XBank.Domain.Infra.Repositories;
 using XBank.Domain.Shared.Interfaces;
+using XBank.Service.API.Middlewares;
 
 namespace API
 {
@@ -61,6 +62,8 @@ namespace API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<CustomExceptionMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

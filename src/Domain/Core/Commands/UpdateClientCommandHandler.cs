@@ -1,9 +1,11 @@
-﻿using XBank.Domain.Core.CustomExceptions;
+﻿using System.Linq;
+using XBank.Domain.Core.CustomExceptions;
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Requests;
 using XBank.Domain.Core.Responses;
 using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
+using XBank.Domain.Shared.Validators;
 
 namespace XBank.Domain.Core.Commands
 {
@@ -15,6 +17,16 @@ namespace XBank.Domain.Core.Commands
 
         public override UpdateClientResponse Handle(UpdateClientRequest request)
         {
+            var validator = new ClientRequestValidator();
+
+            var validatorResult = validator.Validate(request);
+
+            if (validatorResult.Errors.Any())
+            {
+                throw new DomainException($"Validation Error", validatorResult.Errors, 400);
+            }
+
+
             var isClientExist = _repository.Exists(client => client.Id == request.GetId());
 
             if (!isClientExist)
@@ -26,7 +38,7 @@ namespace XBank.Domain.Core.Commands
 
             if (!client.IsActive && !request.GetActivate())
             {
-                throw new DomainException($"You must activate the account before editing.", 400);
+                throw new DomainException($"You must activate the account before create movements.", 400);
             }
 
             client.Name = request.Name;

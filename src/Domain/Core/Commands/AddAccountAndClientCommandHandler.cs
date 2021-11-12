@@ -1,7 +1,9 @@
-﻿using XBank.Domain.Core.CustomExceptions;
+﻿using System.Linq;
+using XBank.Domain.Core.CustomExceptions;
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Requests;
 using XBank.Domain.Core.Responses;
+using XBank.Domain.Core.Validators;
 using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
 using XBank.Domain.Shared.Util;
@@ -16,7 +18,18 @@ namespace XBank.Domain.Core.Commands
 
         public override AddAccountAndClientResponse Handle(AddClientRequest request)
         {
+
+            var validator = new AddAClientRequestValidator();
+
+            var validatorResult = validator.Validate(request);
+
+            if (validatorResult.Errors.Any())
+            {
+                throw new DomainException($"Validation Error", validatorResult.Errors, 400);
+            }
+
             request.CPF = StringFormater.FormatCPF(request.CPF);
+
             if (!Validations.ValidateCPF(request.CPF))
             {
                 throw new DomainException($"CPF {request.CPF} provided is invalid.", 400);

@@ -31,6 +31,11 @@ namespace XBank.Domain.Core.Commands
 
             var account = _repository.Get(account => account.Id == request.GetAccountId(), "Client");
 
+            if (!account.IsActive)
+            {
+                throw new DomainException($"You must activate the account before editing.", 400);
+            }
+
             var movement = new Movement();
             movement.MovementValue = request.MovementValue;
             movement.Type = request.Type;

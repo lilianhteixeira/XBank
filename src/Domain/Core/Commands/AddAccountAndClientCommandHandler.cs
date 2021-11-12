@@ -28,13 +28,6 @@ namespace XBank.Domain.Core.Commands
                 throw new DomainException($"Validation Error", validatorResult.Errors, 400);
             }
 
-            request.CPF = StringFormater.FormatCPF(request.CPF);
-
-            if (!Validations.ValidateCPF(request.CPF))
-            {
-                throw new DomainException($"CPF {request.CPF} provided is invalid.", 400);
-            }
-
             var isClientExist = _repository.Exists(client => client.CPF == request.CPF);
 
             if (isClientExist)

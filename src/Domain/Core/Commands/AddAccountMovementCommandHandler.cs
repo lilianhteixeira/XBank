@@ -1,8 +1,10 @@
-﻿using XBank.Domain.Core.CustomExceptions;
+﻿using System.Linq;
+using XBank.Domain.Core.CustomExceptions;
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Enums;
 using XBank.Domain.Core.Requests;
 using XBank.Domain.Core.Responses;
+using XBank.Domain.Core.Validators;
 using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
 using XBank.Domain.Shared.Util;
@@ -22,6 +24,15 @@ namespace XBank.Domain.Core.Commands
 
         public override AddAccountMovementResponse Handle(AddMovementRequest request)
         {
+            var validator = new AddMovementRequestValidator();
+
+            var validatorResult = validator.Validate(request);
+
+            if (validatorResult.Errors.Any())
+            {
+                throw new DomainException($"Validation Error", validatorResult.Errors, 400);
+            }
+
             var isAccountExist = _repository.Exists(account => account.Id == request.GetAccountId());
 
             if (!isAccountExist)

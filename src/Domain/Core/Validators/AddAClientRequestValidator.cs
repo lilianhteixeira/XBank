@@ -13,7 +13,7 @@ namespace XBank.Domain.Core.Validators
             RuleFor(x => x.CPF)
                 .NotEmpty()
                 .Must(ValidateCPF)
-				.WithMessage("Enter the CPF numbers only.");
+				.WithMessage("InvalidCPF. Enter the CPF numbers only.");
 
         }
 

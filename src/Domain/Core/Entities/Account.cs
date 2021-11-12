@@ -24,10 +24,7 @@ namespace XBank.Domain.Core.Entities
         //}
         public void Withdraw(decimal movementValue)
         {
-            if (movementValue <= 0)
-            {
-                throw new DomainException("Please enter a valid value that is greater than zero.", 400);
-            } else if (Balance < movementValue)
+            if (Balance < movementValue)
             {
                 throw new DomainException("Insufficient balance.", 400);
             }
@@ -37,11 +34,6 @@ namespace XBank.Domain.Core.Entities
 
         public void Deposit(decimal movementValue)
         {
-            if (movementValue <= 0)
-            {
-                throw new DomainException("Please enter a valid value that is greater than zero.", 400);
-            }
-
             Balance += movementValue;
         }
     }

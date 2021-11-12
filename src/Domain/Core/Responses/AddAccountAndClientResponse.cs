@@ -2,7 +2,7 @@
 
 namespace XBank.Domain.Core.Responses
 {
-    public class OpenAccountResponse
+    public class AddAccountAndClientResponse
     {
         public Guid AccountId { get; set; }
         public Guid ClientId { get; set; }

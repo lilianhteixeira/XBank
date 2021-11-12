@@ -8,13 +8,13 @@ using XBank.Domain.Shared.Util;
 
 namespace XBank.Domain.Core.Commands
 {
-    public class AddAccountAndClientCommandHandler : CommandHandler<Client, AddClientRequest, OpenAccountResponse>
+    public class AddAccountAndClientCommandHandler : CommandHandler<Client, AddClientRequest, AddAccountAndClientResponse>
     {
         public AddAccountAndClientCommandHandler(ICommandRepository<Client> repository) : base(repository)
         {
         }
 
-        public override OpenAccountResponse Handle(AddClientRequest request)
+        public override AddAccountAndClientResponse Handle(AddClientRequest request)
         {
             request.CPF = StringFormater.FormatCPF(request.CPF);
             if (!Validations.ValidateCPF(request.CPF))
@@ -45,7 +45,7 @@ namespace XBank.Domain.Core.Commands
             _repository.Add(client);
             _repository.Save();
 
-            var response = new OpenAccountResponse {
+            var response = new AddAccountAndClientResponse {
                 AccountId = account.Id,
                 ClientId = client.Id,
                 CPF = client.CPF,

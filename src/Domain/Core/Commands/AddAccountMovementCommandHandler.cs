@@ -59,11 +59,10 @@ namespace XBank.Domain.Core.Commands
             }
             else
             {
-                request.CPFSend = StringFormater.FormatCPF(request.CPFSend);
 
                 if (!Validations.ValidateCPF(request.CPFSend) && request.Type != MovementEnum.Withdraw)
                 {
-                    throw new DomainException($"CPF {request.CPFSend} provided is invalid.", 400);
+                    throw new DomainException($"CPF {request.CPFSend} provided is invalid or enter the CPF numbers only", 400);
                 }
 
                 if (request.Type == MovementEnum.InternalTransfer)

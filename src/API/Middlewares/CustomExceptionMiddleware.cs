@@ -26,7 +26,9 @@ namespace XBank.Service.API.Middlewares
                 string result = new ErrorDetails()
                 {
                     Message = exc.Message,
-                    StatusCode = exc.Code
+                    StatusCode = exc.Code,
+                    Errors = exc.Errors
+                    
                 }.ToString();
                 context.Response.StatusCode = exc.Code;
                 context.Response.ContentType = "application/json";

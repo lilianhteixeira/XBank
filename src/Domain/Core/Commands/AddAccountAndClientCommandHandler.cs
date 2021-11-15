@@ -1,25 +1,31 @@
-﻿using XBank.Domain.Core.CustomExceptions;
+﻿using System.Linq;
+using XBank.Domain.Core.CustomExceptions;
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Requests;
 using XBank.Domain.Core.Responses;
+using XBank.Domain.Core.Validators;
 using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
 using XBank.Domain.Shared.Util;
 
 namespace XBank.Domain.Core.Commands
 {
-    public class AddAccountAndClientCommandHandler : CommandHandler<Client, AddClientRequest, OpenAccountResponse>
+    public class AddAccountAndClientCommandHandler : CommandHandler<Client, AddClientRequest, AddAccountAndClientResponse>
     {
         public AddAccountAndClientCommandHandler(ICommandRepository<Client> repository) : base(repository)
         {
         }
 
-        public override OpenAccountResponse Handle(AddClientRequest request)
+        public override AddAccountAndClientResponse Handle(AddClientRequest request)
         {
-            request.CPF = StringFormater.FormatCPF(request.CPF);
-            if (!Validations.ValidateCPF(request.CPF))
+
+            var validator = new AddAClientRequestValidator();
+
+            var validatorResult = validator.Validate(request);
+
+            if (validatorResult.Errors.Any())
             {
-                throw new DomainException($"CPF {request.CPF} provided is invalid.", 400);
+                throw new DomainException($"Validation Error", validatorResult.Errors, 400);
             }
 
             var isClientExist = _repository.Exists(client => client.CPF == request.CPF);
@@ -45,7 +51,7 @@ namespace XBank.Domain.Core.Commands
             _repository.Add(client);
             _repository.Save();
 
-            var response = new OpenAccountResponse {
+            var response = new AddAccountAndClientResponse {
                 AccountId = account.Id,
                 ClientId = client.Id,
                 CPF = client.CPF,

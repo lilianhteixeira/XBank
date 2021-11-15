@@ -2,8 +2,8 @@
 {
     public static class Validations
     {
-        public static bool ValidateCPF(string cpf)
-        {
+		public static bool ValidateCPF(string cpf)
+		{
 			// Creditos ao Macoratti
 			// http://www.macoratti.net/11/09/c_val1.htm
 
@@ -13,8 +13,8 @@
 			string digit;
 			int sum;
 			int resto;
-			
-			if (cpf.Length != 11)
+
+			if (cpf == null || cpf.Length != 11)
 				return false;
 
 			tempCpf = cpf.Substring(0, 9);

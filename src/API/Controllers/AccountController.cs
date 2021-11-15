@@ -75,10 +75,7 @@ namespace XBank.Service.API.Controllers
 
             var result = query.Handle(request);
 
-
-            var response = JsonSerializer.Serialize(result);
-
-            return Ok(response);
+            return Ok(result);
         }
 
     }

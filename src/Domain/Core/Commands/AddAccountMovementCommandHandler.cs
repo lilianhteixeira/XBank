@@ -1,8 +1,10 @@
-﻿using XBank.Domain.Core.CustomExceptions;
+﻿using System.Linq;
+using XBank.Domain.Core.CustomExceptions;
 using XBank.Domain.Core.Entities;
 using XBank.Domain.Core.Enums;
 using XBank.Domain.Core.Requests;
 using XBank.Domain.Core.Responses;
+using XBank.Domain.Core.Validators;
 using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
 using XBank.Domain.Shared.Util;
@@ -22,6 +24,15 @@ namespace XBank.Domain.Core.Commands
 
         public override AddAccountMovementResponse Handle(AddMovementRequest request)
         {
+            var validator = new AddMovementRequestValidator();
+
+            var validatorResult = validator.Validate(request);
+
+            if (validatorResult.Errors.Any())
+            {
+                throw new DomainException($"Validation Error", validatorResult.Errors, 400);
+            }
+
             var isAccountExist = _repository.Exists(account => account.Id == request.GetAccountId());
 
             if (!isAccountExist)
@@ -30,6 +41,11 @@ namespace XBank.Domain.Core.Commands
             }
 
             var account = _repository.Get(account => account.Id == request.GetAccountId(), "Client");
+
+            if (!account.IsActive)
+            {
+                throw new DomainException($"You must activate the account before editing.", 400);
+            }
 
             var movement = new Movement();
             movement.MovementValue = request.MovementValue;
@@ -43,11 +59,10 @@ namespace XBank.Domain.Core.Commands
             }
             else
             {
-                request.CPFSend = StringFormater.FormatCPF(request.CPFSend);
 
                 if (!Validations.ValidateCPF(request.CPFSend) && request.Type != MovementEnum.Withdraw)
                 {
-                    throw new DomainException($"CPF {request.CPFSend} provided is invalid.", 400);
+                    throw new DomainException($"CPF {request.CPFSend} provided is invalid or enter the CPF numbers only", 400);
                 }
 
                 if (request.Type == MovementEnum.InternalTransfer)

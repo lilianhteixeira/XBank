@@ -56,13 +56,7 @@ namespace XBank.Domain.Core.Commands
 
             _repository.Save();
 
-            return new UpdateClientResponse 
-            {
-                Name = client.Name,
-                CPF = client.CPF,
-                UpdatedAt = client.UpdatedAt,
-                isActive = client.IsActive
-            };
+            return new UpdateClientResponse(client);
         }
     }
 }

@@ -1,25 +1,18 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using XBank.Domain.Shared.Requests;
+using XBank.Domain.Shared.Util;
 
 namespace XBank.Domain.Shared.Validators
 {
     public class ClientRequestValidator: AbstractValidator<ClientRequest>
     {
-        readonly Regex onlyLettersRegex = new Regex(@"^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$");
-        readonly Regex phoneRegex = new Regex(@"^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$");
-
         public ClientRequestValidator()
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
                 .NotNull()
-                .Matches(onlyLettersRegex);
+                .Matches(RegexsMatches.onlyLettersRegex);
             
             RuleFor(x => x.Email)
                 .NotEmpty()
@@ -33,7 +26,7 @@ namespace XBank.Domain.Shared.Validators
             RuleFor(x => x.Phone)
                 .NotEmpty()
                 .NotNull()
-                .Matches(phoneRegex)
+                .Matches(RegexsMatches.phoneRegex)
                 .WithMessage("Enter a phone in the format (xx) xxxx-xxxx");
         }
     }

@@ -6,6 +6,7 @@ namespace XBank.Domain.Core.Responses
 {
     public class GetAccountMovementsResponse
     {
+        public Guid Id { get; set; }
         public decimal MovementValue { get; set; }
         public string CPFSend { get; set; }
         public string Origin { get; set; }
@@ -14,6 +15,7 @@ namespace XBank.Domain.Core.Responses
 
         public GetAccountMovementsResponse(Movement movement)
         {
+            Id = movement.Id;
             MovementValue = movement.MovementValue;
             CPFSend = movement.CPFSend;
             Origin = movement.Origin;

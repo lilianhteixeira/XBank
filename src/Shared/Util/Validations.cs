@@ -1,4 +1,6 @@
-﻿namespace XBank.Domain.Shared.Util
+﻿using System.Text.RegularExpressions;
+
+namespace XBank.Domain.Shared.Util
 {
     public static class Validations
     {
@@ -14,7 +16,7 @@
 			int sum;
 			int resto;
 
-			if (cpf == null || cpf.Length != 11)
+			if (cpf == null || cpf.Length != 11 || !RegexsMatches.onlyNumbersRegex.IsMatch(cpf))
 				return false;
 
 			tempCpf = cpf.Substring(0, 9);

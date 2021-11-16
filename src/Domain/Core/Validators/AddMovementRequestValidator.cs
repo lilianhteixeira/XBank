@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using XBank.Domain.Core.Requests;
+using XBank.Domain.Shared.Util;
 
 namespace XBank.Domain.Core.Validators
 {

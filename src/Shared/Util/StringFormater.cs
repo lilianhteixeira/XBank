@@ -4,6 +4,8 @@
     {
         public static string FormatCPF(string cpf)
         {
+            if (cpf == null) return cpf;
+
             return cpf.Trim().Replace(".", "").Replace("-", "");
         }
     }

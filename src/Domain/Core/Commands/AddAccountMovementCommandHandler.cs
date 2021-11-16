@@ -59,14 +59,22 @@ namespace XBank.Domain.Core.Commands
             }
             else
             {
+                request.CPFSend = StringFormater.FormatCPF(request.CPFSend);
 
                 if (!Validations.ValidateCPF(request.CPFSend) && request.Type != MovementEnum.Withdraw)
                 {
                     throw new DomainException($"CPF {request.CPFSend} provided is invalid or enter the CPF numbers only", 400);
                 }
 
+                account.Withdraw(request.MovementValue);
+
                 if (request.Type == MovementEnum.InternalTransfer)
                 {
+                    if (request.CPFSend == account.Client.CPF)
+                    {
+                        throw new DomainException($"You can't transfer to yourself.", 400);
+                    }
+
                     var isCPFDestinationExist = _repository.Exists(account => account.Client.CPF == request.CPFSend);
 
                     if (!isCPFDestinationExist)
@@ -103,9 +111,6 @@ namespace XBank.Domain.Core.Commands
                     // only withdraw
                     movement.Origin = "ATM";
                 }
-
-
-                account.Withdraw(request.MovementValue);
             }
 
             movement.CPFSend = request.Type == MovementEnum.ExternalTransfer || request.Type == MovementEnum.InternalTransfer
@@ -116,7 +121,7 @@ namespace XBank.Domain.Core.Commands
             _repository.Update(account);
             _repository.Save();
 
-            return new AddAccountMovementResponse { Id = movement.Id, CreatedAt = movement.CreatedAt };
+            return new AddAccountMovementResponse(movement);
         }
     }
 }

@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra", "src\Infra\Infra.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "src\Domain\Core\Core.csproj", "{BAA3DC6F-185C-441F-BB47-DCD8DF35FDE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "tests\Tests\Tests.csproj", "{BDE0E699-FBA8-4F5C-AD3D-C6D6201252F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{BAA3DC6F-185C-441F-BB47-DCD8DF35FDE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAA3DC6F-185C-441F-BB47-DCD8DF35FDE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAA3DC6F-185C-441F-BB47-DCD8DF35FDE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDE0E699-FBA8-4F5C-AD3D-C6D6201252F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDE0E699-FBA8-4F5C-AD3D-C6D6201252F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDE0E699-FBA8-4F5C-AD3D-C6D6201252F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDE0E699-FBA8-4F5C-AD3D-C6D6201252F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

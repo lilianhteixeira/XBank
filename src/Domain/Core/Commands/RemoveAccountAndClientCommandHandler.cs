@@ -23,6 +23,12 @@ namespace XBank.Domain.Core.Commands
             }
 
             var client = _repository.Get(x => x.Id == request.GetId(), "Account");
+
+            if (client.Account.Balance > 0)
+            {
+                throw new DomainException($"Customer with Id {request.GetId()} have funds. Pleaser withdraw all funds.", 400);
+            }
+
             client.IsActive = false;
             client.Account.IsActive = false;
             _repository.Save();

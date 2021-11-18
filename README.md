@@ -41,11 +41,10 @@ Construção de uma API com arquitetura REST para gerenciar as transações da n
 - A movimentação está vinculada a uma conta.
 - Movimentações disponíveis saque, transferencia e depósito.
 - No extrato ficará disponibilizado para o cliente a data e a hora das movimentações.
+- Quando um cliente for desativado sua conta também será
 ```
 
-### Arquitetura
-        Arquitetura REST
-        |
+### Arquivos
         \--📂 **HUB-FIGHTS**
             | 📄 README.md
             | 📄 .gitignore
@@ -55,15 +54,19 @@ Construção de uma API com arquitetura REST para gerenciar as transações da n
                 📂---Domain
                         |📄 **Core.csproj**
                             📂---Commands
+                            📂---CustomExceptions
                             📂---Entities
                             📂---Enums
                             📂---Queries
                             📂---Requests
                             📂---Responses
+                            📂---Validators
                     |   📄 **Shared.csproj**
                             📂---Entities
                             📂---Handlers
                             📂---Interfaces
+                            📂---Requests
+                            📂---Responses
                             📂---Util
                             📂---ValueObjects  
                 📂---Infra
@@ -73,21 +76,23 @@ Construção de uma API com arquitetura REST para gerenciar as transações da n
                             📂---Repositories
                 📂---Service
                     |   📄 **API.**
+                            📂---Classes
                             📂---Properties
                             📂---Controllers
+                            📂---Middlewares
                             | 📄 appsettings.json
                             | 📄 Program.cs
                             | 📄 Startup.cs
                             | 📄 WeatherForecast.cs
                             
-## Fluxograma da API 
+## Arquitetura da API 
 
 <p align="center"><img src="assets/Fluxograma.png"/></p>
 
 ##  Links
 #### local: http://localhost:52227
-#### API: https://localhost:5001; http://localhost:5000
 
+#### Swagger: http://localhost:52227/swagger/index.html
 ## Iniciando aplicação
 - Use o comando `dotnet build` para compilar o projeto
 - Após a compilação use o comando `dotnet run` para inicializar a aplicação
@@ -107,11 +112,14 @@ Construção de uma API com arquitetura REST para gerenciar as transações da n
 ####  `GET`
 **​/api​/Account​/{id}**
 
+####  `GET`
+**​/api​/Account​/{id}/extract**
+
 
 
 ## - Client
 ####  `POST`
-**Rota:**   */api/Client* 
+**Rota:**   **/api/Client**
 ```js
 {
   "name": "string",
@@ -123,7 +131,7 @@ Construção de uma API com arquitetura REST para gerenciar as transações da n
 ```
 
 ####  `GET`
-**​/api​/Client**
+**​/api​/Client/{id}**
 
 ####  `PUT`
 **​/api​/Client​/{id}**

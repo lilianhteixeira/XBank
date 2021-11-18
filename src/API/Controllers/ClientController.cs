@@ -2,8 +2,8 @@
 using System;
 using XBank.Domain.Core.Commands;
 using XBank.Domain.Core.Entities;
+using XBank.Domain.Core.Queries;
 using XBank.Domain.Core.Requests;
-using XBank.Domain.Shared.Handlers;
 using XBank.Domain.Shared.Interfaces;
 using XBank.Domain.Shared.Requests;
 
@@ -68,7 +68,7 @@ namespace XBank.Service.API.Controllers
         [Route("{id}")]
         public IActionResult GetById([FromRoute] Guid id)
         {
-            var query = new GetByIdQueryHandler<Client>(_qRepository);
+            var query = new GetClientHandler(_qRepository);
 
             var request = new GetByIdRequest();
             request.SetId(id);

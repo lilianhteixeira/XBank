@@ -7,20 +7,18 @@ using XBank.Domain.Shared.Requests;
 
 namespace XBank.Domain.Core.Queries
 {
-    public class GetAccountHandler : QueryHandler<Account, GetByIdRequest, Object>
+    public class GetAccountHandler : QueryHandler<Account, GetByIdRequest, GetAccountResponse>
     {
         public GetAccountHandler(IQueryRepository<Account> repository) : base(repository)
         {
         }
 
-        public override object Handle(GetByIdRequest request)
+        public override GetAccountResponse Handle(GetByIdRequest request)
         {
-            var result = _repository
+            var account = _repository
                 .Get(account => account.Id == request.GetId(), "Client");
 
-            var response = new GetAccountResponse(result);
-
-            return response;
+            return new GetAccountResponse(account);
         }
     }
 }

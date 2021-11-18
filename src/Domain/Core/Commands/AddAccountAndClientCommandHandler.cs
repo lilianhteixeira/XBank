@@ -21,8 +21,9 @@ namespace XBank.Domain.Core.Commands
 
             var validator = new AddAClientRequestValidator();
 
-            var validatorResult = validator.Validate(request);
+            request.CPF = StringFormater.FormatCPF(request.CPF);
 
+            var validatorResult = validator.Validate(request);
             if (validatorResult.Errors.Any())
             {
                 throw new DomainException($"Validation Error", validatorResult.Errors, 400);
@@ -51,13 +52,7 @@ namespace XBank.Domain.Core.Commands
             _repository.Add(client);
             _repository.Save();
 
-            var response = new AddAccountAndClientResponse {
-                AccountId = account.Id,
-                ClientId = client.Id,
-                CPF = client.CPF,
-                Name = client.Name,
-                CreatedAt = account.CreatedAt
-            };
+            var response = new AddAccountAndClientResponse (client);
 
             return response;
         }

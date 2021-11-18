@@ -144,6 +144,14 @@ Construção de uma API com arquitetura REST para gerenciar as transações da n
 ##  Schemas SQL
 <p align="center"><img src="assets/schema.png"/></p>
 
+## Futuras implementações:
+ - Criação de avaliação de perfil, importante para ofertar novos produtos do banco
+ - O cliente poderá ter vários tipos de conta vinculados como (Pessoa Jurídica, conta poupança)
+ - Limite de saque por dia
+ - Implementação de login e senha para acesso a conta e movimentações
+ - Tokenização, aumentando a segurança das movimentações
+ - Implementação de Testes unitários
+
 ##  Organização do Projeto:
 #### [Miro](https://miro.com/app/board/o9J_lmihxys=/?invite_link_id=73148829103)
 #### [Apresentação Canvas](https://www.canva.com/design/DAEvWuTP9X4/xSjWeqm4U6Dmsh2MSvwhZA/view?utm_content=DAEvWuTP9X4&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink)
